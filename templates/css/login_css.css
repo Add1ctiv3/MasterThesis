@@ -1,0 +1,46 @@
+@charset "utf-8";
+
+@import url('https://fonts.googleapis.com/css?family=Lora');
+	
+	body { background-color:#f1f1f1; }
+	#dumpener { position:absolute; top:0; left:0; width:100%; height:100%;  background: rgba(0, 0, 0, 0.75); display:none; }
+	
+	/*Panels*/
+	.panel { display:block; box-sizing:border-box; position:relative; padding: 25px 40px; background-color: #fff; box-shadow: 0 1px 3px rgba(0,0,0, 0.23); }
+	#login_panel { width: 500px;  margin:50px auto; }
+	#signup_panel { width:500px;  margin: 50px auto 0px auto; border-radius:8px; display:none; }
+	
+		#logo { display:block; margin: 0px auto 15px auto; user-select:none; }
+		#signup_logo { display:block; margin: 0px auto 0px auto; user-select:none; }
+		
+		#create_new_account_link { margin: 7px 0px; color:#09F; user-select:none; }	
+		
+		.ajax_spinner { display:inline; position:absolute; bottom:32px; right:50px; display:none; }
+		
+		.separator-hor { width:100%; height: 1px; border-bottom:1px solid #d9d9d9; margin:15px 0; }
+		
+		#signup_x { cursor:pointer; position:absolute; right:25px; }
+
+	/* Forms */
+	#login_form, #signup_form { width:100%; padding:0; box-sizing:border-box; }
+		#login_form > *, #signup_form > * { display:block; }
+	
+		label { font-family:'Lora', serif; font-size: 16px; font-weight:bold; color:#72777c; margin: 12px 0px 3px 0px; cursor:pointer; user-select:none; }
+		.login_page_input { width:100%; padding:12px 35px 12px 7px; box-sizing:border-box; box-shadow:inset 0 1px 2px rgba(0,0,0,.07); border:1px solid #ddd; user-select:none; }
+		.login_page_input:focus { border-color:#09F; }
+	
+		.button { padding:10px 32px; font-family:'Lora', serif; font-size: 14px; background-color:#0085ba; border-color:#0073aa #006799 #006799; box-shadow:0 1px 0 #006799; color:#fff; text-shadow:0 -1px 1px #006799, 1px 0 1px #006799, 0 1px 1px #006799, -1px 0 1px #006799; border-width:1px; border-style:solid; margin-top: 14px; cursor:pointer;  }	
+		
+		#login_username, #signup_username { background: url(../images/user-icon.png) right no-repeat; background-position: 385px 7px; }
+		#login_password, #signup_password_repeat { background: url(../images/password-icon.png) right no-repeat; background-position: 385px 7px; }
+		#signup_password { background: url(../images/password-open-icon.png) right no-repeat; background-position: 385px 7px; }
+		#signup_email { background: url(../images/email-icon.png) right no-repeat; background-position: 385px 7px; }
+		#signup_lastname, #signup_firstname { background: url(../images/credentials-icon.png) right no-repeat; background-position: 385px 7px; }
+
+
+	.input_error { border-color:#A60000; }
+	.input_error:focus { border-color:#A60000; }
+		
+	
+		
+
