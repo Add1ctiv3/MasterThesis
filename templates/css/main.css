@@ -335,7 +335,7 @@ input:focus {
 
 	display:block; 
 
-	position:fixed; 
+	position:absolute;
 
 	top:0;
 
@@ -345,7 +345,7 @@ input:focus {
 
 	box-sizing:border-box; 
 
-	z-index:200; 
+	z-index:200;
 
 }
 
