@@ -411,6 +411,201 @@ if($_POST['uri'] == "networkReachAlgorithm") {
 
 }
 
+if($_POST['uri'] == "nodeReachAlgorithm") {
+
+    $result = array("result" => "success",
+        "message" => "",
+        "data" => array()
+    );
+
+    $nodes = $_POST['nodes'];
+
+    $reaches = array();
+
+    foreach($nodes as $n) {
+
+        $nodesConnections = $n['connections'];
+
+        $reachStats = array("number" => $n['id'], "reach" => count($n['connections']));
+
+        array_push($reaches, $reachStats);
+
+    }
+
+    $indexedReaches = array();
+
+    while(count($reaches) > 0) {
+
+        $max = 0;
+        $index;
+        for($i = 0; $i < count($reaches); $i++) {
+            $r = $reaches[$i];
+            if($r['reach'] >= $max) {
+                $max = $r['reach'];
+                $index = $i;
+            }
+        }
+
+        array_push($indexedReaches, $reaches[$index]);
+        array_splice($reaches, $index, 1);
+
+    }
+
+
+    $result['data'] = $indexedReaches;
+    die(json_encode(array("reply" => $result)));
+
+}
+
+if($_POST['uri'] == "closenessCentrality") {
+
+    $result = array("result" => "success",
+        "message" => "",
+        "data" => array()
+    );
+
+    $nodes = $_POST['nodes'];
+
+    $CCs = array();
+
+    //create a graph to be able to use dijkstra algorithm
+    $graph = createNodesGraph($nodes);
+    $dijkstra = new Dijkstra($graph);
+
+    //for every node
+    for($i = 0; $i < count($nodes); $i++) {
+
+        $sum = 0;
+
+        for($j = 0; $j < count($nodes); $j++) {
+            if($nodes[$j]['id'] == $nodes[$i]['id']) {
+                continue;
+            }
+            $paths = $dijkstra->shortestPaths($nodes[$i]['id'], $nodes[$j]['id']);
+            if($paths && count($paths)>0) {
+                $sum += count($paths[0]);
+            }
+        }
+
+        //its closeness centrality
+        $cc = (count($nodes) + 1) / $sum;
+
+        array_push($CCs, array("number" => $nodes[$i]['id'], "cc" => round($cc,4)));
+
+    }
+
+    $indexedCCs = array();
+
+    while(count($CCs) > 0) {
+
+        $max = 0;
+        $index;
+        for($i = 0; $i < count($CCs); $i++) {
+            $r = $CCs[$i];
+            if($r['cc'] >= $max) {
+                $max = $r['cc'];
+                $index = $i;
+            }
+        }
+
+        array_push($indexedCCs, $CCs[$index]);
+        array_splice($CCs, $index, 1);
+
+    }
+
+    $result['data'] = $indexedCCs;
+    die(json_encode(array("reply" => $result)));
+
+}
+
+if($_POST['uri'] == "betweennessCentrality") {
+
+    $result = array("result" => "success",
+        "message" => "",
+        "data" => array()
+    );
+
+    $nodes = $_POST['nodes'];
+
+    $BCs = array();
+
+    //create a graph to be able to use dijkstra algorithm
+    $graph = createNodesGraph($nodes);
+    $dijkstra = new Dijkstra($graph);
+
+    $couples = array();
+
+    //find all the pairs shortest paths
+    for($i = 0; $i < count($nodes); $i++) {
+        for($j = $i + 1; $j < count($nodes); $j++) {
+            $key = $nodes[$i]['id'] . "-" . $nodes[$j]['id'];
+            $inversedKey = $nodes[$j]['id'] . "-" . $nodes[$i]['id'];
+            if(!isset($couples[$key]) && !isset($couples[$inversedKey])) {
+                $couples[$key] = $dijkstra->shortestPaths($nodes[$i]['id'], $nodes[$j]['id']);
+            }
+        }
+    }
+
+    //now i have an array with every couple of nodes in my graph and an array with the shortest paths linking them
+    //iterate through those arrays to see if each nodes is contained in those paths and store a number
+    for($i = 0; $i < count($nodes); $i++) {
+
+        $node = $nodes[$i];
+        $sum = 0;
+
+        foreach($couples as $key => $paths) {
+
+            $coupleSum = 0;
+
+            //exclude pairs that contain the node
+            if(strpos($key, $nodes['id']) !== false) {
+                continue;
+            }
+
+            if(count($paths) == 0) {
+                continue;
+            }
+
+            $numberOfPaths = count($paths);
+
+            foreach($paths as $path) {
+                if(in_array($node['id'], $path)) {
+                    $coupleSum++;
+                }
+            }
+
+            $sum += $coupleSum/$numberOfPaths;
+
+        }
+
+        array_push($BCs, array("number" => $node['id'], "bc" => round($sum, 3)));
+
+    }
+
+    $indexedBCs = array();
+
+    while(count($BCs) > 0) {
+
+        $max = 0;
+        $index;
+        for($i = 0; $i < count($BCs); $i++) {
+            $r = $BCs[$i];
+            if($r['bc'] >= $max) {
+                $max = $r['bc'];
+                $index = $i;
+            }
+        }
+
+        array_push($indexedBCs, $BCs[$index]);
+        array_splice($BCs, $index, 1);
+
+    }
+
+    $result['data'] = $indexedBCs;
+    die(json_encode(array("reply" => $result)));
+
+}
+
 function networkCapitalAnalysis($nodes, $edges, $RSL, $dijkstra) {
 
     $result = array();
@@ -597,5 +792,7 @@ function createNodesGraph($nodes) {
 
     return $graph;
 }
+
+
 
 ?>
