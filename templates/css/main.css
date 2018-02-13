@@ -2516,15 +2516,29 @@ a#query-results-pagination-next-button:visited {
 	cursor:pointer;
 }
 
-#nc-analysis-results-table, #nf-analysis-results-table, #reach-analysis-results-table {
+#nc-analysis-results-table, #nf-analysis-results-table, #reach-analysis-results-table, #nodes-reach-analysis-results-table {
 	position:relative;
 	margin: 0 auto;
 	width:100%;
 }
 
-#nc-analysis-results-table tr td, #nf-analysis-results-table tr td, #reach-analysis-results-table tr td {
+#nc-analysis-results-table tr td, #nf-analysis-results-table tr td, #reach-analysis-results-table tr td, #nodes-reach-analysis-results-table tr td {
 	border:1px solid #ccc;
 	margin:2px;
+}
+
+#nodes-reach-analysis-results-table tr td {
+    text-align:center;
+}
+
+#nodes-reach-analysis-results-table tr td.result-number {
+    font-size:16px;
+}
+
+#nodes-reach-analysis-results-table thead th {
+    user-select:none;
+    border:1px solid #ccc;
+    margin:2px;
 }
 
 .result-number, .nf-result-number {
