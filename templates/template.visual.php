@@ -8,6 +8,7 @@
     $nf_analysis_results_dialog = require_once("templates/nf_analysis_results_dialog.php");
     $reach_analysis_results_dialog = require_once("templates/reach_analysis_results_dialog.php");
     $require_rsl_dialog = require_once("templates/require_RSL_dialog.php");
+    $nodes_reach_analysis_results_dialog = require_once("templates/nodes_reach_analysis_results_dialog.php");
 ?>
 
 <!doctype html>
@@ -100,6 +101,9 @@
             <div class="right-sidebar-button" id="network-capital-analysis-button" title="Enforcement analysis based on network capital criteria."><img src="templates/images/tactical_icon.png" width="30" height="30" /></div>
             <div class="right-sidebar-button" id="fragmentation-analysis-button" title="Enforcement analysis based on network fragmentation."><img src="templates/images/fragmentation_icon.png" width="30" height="30" /></div>
             <div class="right-sidebar-button" id="reach-analysis-button" title="Intelligence analysis based on network reach."><img src="templates/images/reach.png" width="30" height="30" /></div>
+            <div class="right-sidebar-button" id="reach-button" title="Find each nodes Reach."><img src="templates/images/reach2.png" width="30" height="30" /></div>
+            <div class="right-sidebar-button" id="closeness-button" title="Find each nodes closeness centrality."><img src="templates/images/closeness_centrality_icon.png" width="30" height="30" /></div>
+            <div class="right-sidebar-button" id="betweenness-button" title="Find each nodes betweenness centrality."><img src="templates/images/betweenness_centrality_icon.png" width="30" height="30" /></div>
         </div>
 
         <!-- logged user panel -->
@@ -290,6 +294,7 @@
         <?php echo $nf_analysis_results_dialog; ?>
         <?php echo $reach_analysis_results_dialog; ?>
         <?php echo $require_rsl_dialog; ?>
+        <?php echo $nodes_reach_analysis_results_dialog; ?>
 
         <!-- View query results panel -->
         <div id="query-results-container" class="hidden">
