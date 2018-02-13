@@ -361,7 +361,327 @@ $(document).ready(function() {
         $(this).addClass("selected-record");
     });
 
+    $("#reach-button").click(function() {
+
+        getNodeReach();
+
+    });
+
+    $("#closeness-button").click(function() {
+
+        getNodesCloseness();
+
+    });
+
+    $("#betweenness-button").click(function() {
+
+        getNodesBetweenness();
+
+    });
+
 });
+
+function getNodesBetweenness() {
+
+    if(NETWORK === null) {
+        toastr.error("You need a network to analyze.");
+        return;
+    }
+
+    var nodes = [];
+    NODES.get().forEach(function(node) {
+        var edgeIds = NETWORK.getConnectedEdges(node.id);
+        var n = {
+            id: node.id,
+            connections: EDGES.get(edgeIds)
+        }
+        nodes.push(n);
+    });
+console.log(nodes);
+    var net = {
+        nodes: nodes,
+        uri: "betweennessCentrality"
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "ajax/ajax.visual_requests.php",
+        dataType:"json",
+        data: net,
+        beforeSend: function() {
+            $( "#ajax-spinner-dialog" ).dialog({
+                modal: true,
+                resizable: false,
+                title: "Please Wait...",
+                closeOnEscape: false,
+                open: function(event, ui) {
+                    $(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
+                }
+            });
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            toastr.error(thrownError);
+            $( "#ajax-spinner-dialog" ).dialog("close");
+        },
+        success : function(json) {
+
+            $( "#ajax-spinner-dialog" ).dialog("close");
+
+            if (json.error != null) {
+                toastr.error(json.error);
+                return;
+            }
+
+            if (json.reply && json.reply.result == "success") {
+
+                var nodes = json.reply.data;
+                var html = "";
+
+                nodes.forEach(function(node) {
+                    html += "<tr>" +
+                    "<td class='result-number' rel='"+node.number+"'>"+node.number+"</td>" +
+                    "<td>"+node.bc+"</td>" +
+                    "</tr>";
+                });
+
+                $(html).appendTo("#nodes-reach-analysis-results-table");
+
+                sizeNodesByBetweenness(nodes);
+
+                //make the sets dialog
+                $( "#nodes-reach-analysis-results-panel" ).dialog({
+                    width: 400,
+                    height: 470,
+                    autoOpen: true,
+                    modal: false,
+                    draggable: true,
+                    resizable: true,
+                    closeOnEscape: true,
+                    title: "Nodes Closeness Centrality Analysis Results",
+                    close: function() {
+                        sizeBackNodes(nodes);
+                        $("#nodes-reach-analysis-results-table tr").remove();
+                        $( "#nodes-reach-analysis-results-panel" ).dialog("destroy");
+                    },
+                    buttons: {
+                        "OK": function() {
+                            sizeBackNodes(nodes);
+                            $("#nodes-reach-analysis-results-table tr").remove();
+                            $( "#nodes-reach-analysis-results-panel" ).dialog("destroy");
+                        }
+                    }
+                });
+
+            } //end of success if block
+
+            if (json.reply && json.reply.result == "failure") {
+                toastr.error(json.reply.message);
+            }
+        }
+    }); //end of ajax call to get sets
+
+}
+
+function getNodesCloseness() {
+
+    if(NETWORK === null) {
+        toastr.error("You need a network to analyze.");
+        return;
+    }
+
+    var nodes = [];
+    NODES.get().forEach(function(node) {
+        var edgeIds = NETWORK.getConnectedEdges(node.id);
+        var n = {
+            id: node.id,
+            connections: EDGES.get(edgeIds)
+        }
+        nodes.push(n);
+    });
+
+    var net = {
+        nodes: nodes,
+        uri: "closenessCentrality"
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "ajax/ajax.visual_requests.php",
+        dataType:"json",
+        data: net,
+        beforeSend: function() {
+            $( "#ajax-spinner-dialog" ).dialog({
+                modal: true,
+                resizable: false,
+                title: "Please Wait...",
+                closeOnEscape: false,
+                open: function(event, ui) {
+                    $(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
+                }
+            });
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            toastr.error(thrownError);
+            $( "#ajax-spinner-dialog" ).dialog("close");
+        },
+        success : function(json) {
+
+            $( "#ajax-spinner-dialog" ).dialog("close");
+
+            if (json.error != null) {
+                toastr.error(json.error);
+                return;
+            }
+
+            if (json.reply && json.reply.result == "success") {
+
+                var nodes = json.reply.data;
+                var html = "";
+
+                nodes.forEach(function(node) {
+                    html += "<tr>" +
+                    "<td class='result-number' rel='"+node.number+"'>"+node.number+"</td>" +
+                    "<td>"+node.cc+"</td>" +
+                    "</tr>";
+                });
+
+                $(html).appendTo("#nodes-reach-analysis-results-table");
+
+                sizeNodesByCloseness(nodes);
+
+                //make the sets dialog
+                $( "#nodes-reach-analysis-results-panel" ).dialog({
+                    width: 400,
+                    height: 470,
+                    autoOpen: true,
+                    modal: false,
+                    draggable: true,
+                    resizable: true,
+                    closeOnEscape: true,
+                    title: "Nodes Closeness Centrality Analysis Results",
+                    close: function() {
+                        sizeBackNodes(nodes);
+                        $("#nodes-reach-analysis-results-table tr").remove();
+                        $( "#nodes-reach-analysis-results-panel" ).dialog("destroy");
+                    },
+                    buttons: {
+                        "OK": function() {
+                            sizeBackNodes(nodes);
+                            $("#nodes-reach-analysis-results-table tr").remove();
+                            $( "#nodes-reach-analysis-results-panel" ).dialog("destroy");
+                        }
+                    }
+                });
+
+            } //end of success if block
+
+            if (json.reply && json.reply.result == "failure") {
+                toastr.error(json.reply.message);
+            }
+        }
+    }); //end of ajax call to get sets
+
+}
+
+function getNodeReach() {
+
+    if(NETWORK === null) {
+        toastr.error("You need a network to analyze.");
+        return;
+    }
+
+    var nodes = [];
+    NODES.get().forEach(function(node) {
+        var edgeIds = NETWORK.getConnectedEdges(node.id);
+        var n = {
+            id: node.id,
+            connections: EDGES.get(edgeIds)
+        }
+        nodes.push(n);
+    });
+
+    var net = {
+        nodes: nodes,
+        uri: "nodeReachAlgorithm"
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "ajax/ajax.visual_requests.php",
+        dataType:"json",
+        data: net,
+        beforeSend: function() {
+            $( "#ajax-spinner-dialog" ).dialog({
+                modal: true,
+                resizable: false,
+                title: "Please Wait...",
+                closeOnEscape: false,
+                open: function(event, ui) {
+                    $(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
+                }
+            });
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            toastr.error(thrownError);
+            $( "#ajax-spinner-dialog" ).dialog("close");
+        },
+        success : function(json) {
+
+            $( "#ajax-spinner-dialog" ).dialog("close");
+
+            if (json.error != null) {
+                toastr.error(json.error);
+                return;
+            }
+
+            if (json.reply && json.reply.result == "success") {
+
+                var nodes = json.reply.data;
+                var html = "";
+
+                nodes.forEach(function(node) {
+                    html += "<tr>" +
+                                "<td class='result-number' rel='"+node.number+"'>"+node.number+"</td>" +
+                                "<td>"+node.reach+"</td>" +
+                            "</tr>";
+                });
+
+                $(html).appendTo("#nodes-reach-analysis-results-table");
+
+                sizeNodesByReach(nodes);
+
+                //make the sets dialog
+                $( "#nodes-reach-analysis-results-panel" ).dialog({
+                    width: 400,
+                    height: 470,
+                    autoOpen: true,
+                    modal: false,
+                    draggable: true,
+                    resizable: true,
+                    closeOnEscape: true,
+                    title: "Nodes Reach Analysis Results",
+                    close: function() {
+                        sizeBackNodes(nodes);
+                        $("#nodes-reach-analysis-results-table tr").remove();
+                        $( "#nodes-reach-analysis-results-panel" ).dialog("destroy");
+                    },
+                    buttons: {
+                        "OK": function() {
+                            sizeBackNodes(nodes);
+                            $("#nodes-reach-analysis-results-table tr").remove();
+                            $( "#nodes-reach-analysis-results-panel" ).dialog("destroy");
+                        }
+                    }
+                });
+
+            } //end of success if block
+
+            if (json.reply && json.reply.result == "failure") {
+                toastr.error(json.reply.message);
+            }
+        }
+    }); //end of ajax call to get sets
+}
 
 function networkReachAnalysis() {
     if(NETWORK === null) {
@@ -1804,6 +2124,80 @@ function editNodes(arrayOfNodeIds, markUnmark) {
         }
 
     }
+
+}
+
+function sizeNodesByReach(data) {
+
+    if(NETWORK === null) {
+        return;
+    }
+
+    data.forEach(function(node) {
+
+        var size = node.reach * 700 / NODES.length;
+
+        if(size == 0 || size < 30) {
+            size = 30;
+        }
+
+        NODES.update({id: node.number, size: size, color: { border: "#d65100" }, font: { size: 60, color: "#d65100" }});
+
+    });
+
+}
+
+function sizeNodesByCloseness(data) {
+
+    if(NETWORK === null) {
+        return;
+    }
+
+    data.forEach(function(node) {
+
+        var size = node.cc * 500;
+
+        if(size == 0 || size < 30) {
+            size = 30;
+        }
+
+        NODES.update({id: node.number, size: size, color: { border: "#d65100" }, font: { size: 60, color: "#d65100" }});
+
+    });
+
+}
+
+function sizeNodesByBetweenness(data) {
+    if(NETWORK === null) {
+        return;
+    }
+
+    data.forEach(function(node) {
+
+        var size = node.bc;
+
+        if(size == 0 || size < 30) {
+            size = 30;
+        }
+
+        NODES.update({id: node.number, size: size, color: { border: "#d65100" }, font: { size: 60, color: "#d65100" }});
+
+    });
+
+}
+
+function sizeBackNodes(data) {
+
+    if(NETWORK === null) {
+        return;
+    }
+
+    data.forEach(function(node) {
+
+        var size = 60;
+        NODES.update({id: node.number, size: size, color: { border: "#4f4f4f" }, font: { size: 25, color: "#070707" }});
+
+    });
 
 }
 
