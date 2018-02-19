@@ -2,6 +2,12 @@ var RECORDS_PER_PAGE = 600;
 
 $(document).ready(function() {
 
+    resizeSidebar();
+
+    $(window).on('resize', function(e) {
+        resizeSidebar();
+    });
+
     $("#queries-panel").dialog({
         width: 800,
         height: 820,

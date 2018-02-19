@@ -1,5 +1,11 @@
 $(document).ready(function() {
 
+    resizeSidebar();
+
+    $(window).on('resize', function(e) {
+        resizeSidebar();
+    });
+
     $("#import-data-panel").dialog({
         width: 800,
         height: 620,

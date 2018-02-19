@@ -32,6 +32,12 @@ var IMPORT_DATA_PANEL = null;
 	
 $(document).ready(function() {
 
+    resizeSidebar();
+
+    $(window).on('resize', function(e) {
+        resizeSidebar();
+    });
+
 	toastr.options = { positionClass: 'toast-bottom-right' };
 	toastr.options.closeButton = true;
 	toastr.options.newestOnTop = true;
@@ -288,7 +294,7 @@ $(document).ready(function() {
 				.css({'width': '0px'})
 				.show()
 				.animate({					
-						width: '350px',
+						width: '350px'
 					}, 
 					300);
 			
@@ -338,7 +344,7 @@ $(document).ready(function() {
 					toastr.success("Your import data template has been saved!");
 					$("#impot-data-template-name-container")
 						.animate({
-								width: '0px',
+								width: '0px'
 							}, 
 							300, function() {
 								$(this).hide();
@@ -1301,7 +1307,7 @@ function initializeFileUploads() {
 			},
 			onImageLoaded: function(itemEl, listEl, parentEl, newInputEl, inputEl) {
 				// your callback here
-			},
+			}
 		},
 		upload: {
 			url: 'ajax/ajax.file_upload.php',
@@ -1363,7 +1369,7 @@ function initializeFileUploads() {
 			},
 			onComplete: function(listEl, parentEl, newInputEl, inputEl, jqXHR, textStatus) {
 				// your callback here
-			},
+			}
 		},
 		dragDrop: {
 			container: null,
@@ -1375,7 +1381,7 @@ function initializeFileUploads() {
 			},
 			onDrop: function(event, listEl, parentEl, newInputEl, inputEl) {
 				// your callback here
-			},
+			}
 			
 		},
 		addMore: false,        

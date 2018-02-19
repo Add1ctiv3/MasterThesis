@@ -168,6 +168,12 @@ var MULTISELECT_MODE = false;
 
 $(document).ready(function() {
 
+    resizeSidebar();
+
+    $(window).on('resize', function(e) {
+        resizeSidebar();
+    });
+
     document.onkeydown = KeyPress;
 
     document.oncontextmenu = function(e) { e.preventDefault(); };
@@ -361,9 +367,9 @@ $(document).ready(function() {
         $(this).addClass("selected-record");
     });
 
-    $("#reach-button").click(function() {
+    $("#degree-button").click(function() {
 
-        getNodeReach();
+        getNodesDegree();
 
     });
 
@@ -583,7 +589,7 @@ function getNodesCloseness() {
 
 }
 
-function getNodeReach() {
+function getNodesDegree() {
 
     if(NETWORK === null) {
         toastr.error("You need a network to analyze.");
@@ -602,7 +608,7 @@ function getNodeReach() {
 
     var net = {
         nodes: nodes,
-        uri: "nodeReachAlgorithm"
+        uri: "nodesDegreeAlgorithm"
     };
 
     $.ajax({
@@ -659,7 +665,7 @@ function getNodeReach() {
                     draggable: true,
                     resizable: true,
                     closeOnEscape: true,
-                    title: "Nodes Reach Analysis Results",
+                    title: "Nodes Degree CEntrality Analysis Results",
                     close: function() {
                         sizeBackNodes(nodes);
                         $("#nodes-reach-analysis-results-table tr").remove();
@@ -2231,4 +2237,12 @@ function KeyPress(e) {
 
 function isNumber(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
+function resizeSidebar() {
+    var body = document.body,
+        html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+        html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $("#left-side-bar").css({'height': height + "px"});
 }

@@ -1,6 +1,12 @@
 
 $(document).ready(function() {
 
+    resizeSidebar();
+
+    $(window).on('resize', function(e) {
+        resizeSidebar();
+    });
+
 	toastr.options = { positionClass: 'toast-bottom-right', }
 	toastr.options.closeButton = true;
 	toastr.options.newestOnTop = true;
