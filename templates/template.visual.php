@@ -101,7 +101,7 @@
             <div class="right-sidebar-button" id="network-capital-analysis-button" title="Enforcement analysis based on network capital criteria."><img src="templates/images/tactical_icon.png" width="30" height="30" /></div>
             <div class="right-sidebar-button" id="fragmentation-analysis-button" title="Enforcement analysis based on network fragmentation."><img src="templates/images/fragmentation_icon.png" width="30" height="30" /></div>
             <div class="right-sidebar-button" id="reach-analysis-button" title="Intelligence analysis based on network reach."><img src="templates/images/reach.png" width="30" height="30" /></div>
-            <div class="right-sidebar-button" id="reach-button" title="Find each nodes Reach."><img src="templates/images/reach2.png" width="30" height="30" /></div>
+            <div class="right-sidebar-button" id="degree-button" title="Find each nodes Degree Centrality."><img src="templates/images/reach2.png" width="30" height="30" /></div>
             <div class="right-sidebar-button" id="closeness-button" title="Find each nodes closeness centrality."><img src="templates/images/closeness_centrality_icon.png" width="30" height="30" /></div>
             <div class="right-sidebar-button" id="betweenness-button" title="Find each nodes betweenness centrality."><img src="templates/images/betweenness_centrality_icon.png" width="30" height="30" /></div>
         </div>
@@ -312,6 +312,10 @@
         <script src="templates/javascript/jquery_ui/jquery-ui.js"></script>
 
         <script src="templates/libs/toastr/toastr.min.js"></script>
+
+        <script type="text/javascript" src="templates/libs/slim/slim.jquery.min.js"></script>
+
+        <script type="text/javascript" src="templates/libs/slimScroll/jquery.slimscroll.min.js"></script>
 
         <script type="text/javascript" src="templates/libs/contextMenu/dist/jquery.contextMenu.js"></script>
 
