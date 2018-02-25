@@ -8,6 +8,12 @@ var IMPORT_DATA_PANEL = null;
 	
 $(document).ready(function() {
 
+    resizeSidebar();
+
+    $(window).on('resize', function(e) {
+        resizeSidebar();
+    });
+
 	toastr.options = { positionClass: 'toast-bottom-right' }
 	toastr.options.closeButton = true;
 	toastr.options.newestOnTop = true;
@@ -2606,4 +2612,10 @@ function getFiltersByColumn(columnIndex, filtersArray) {
 	return arrayToRet.sort( function(a, b) {return a.order - b.order;} );
 }
 
-
+function resizeSidebar() {
+    var body = document.body,
+        html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+        html.clientHeight, html.scrollHeight, html.offsetHeight );
+    $("#left-side-bar").css({'height': height + "px"});
+}
