@@ -61,9 +61,7 @@ class Telecommunication {
 		
 	}
 	public function setWeight($val) {
-		if($val > 0 && $val <= 1) {
-            $this->weight = $val;
-		}
+        $this->weight = $val;
 	}
 	public function setType($type) {
 		$this->determineType($type);
