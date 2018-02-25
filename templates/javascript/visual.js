@@ -1323,6 +1323,10 @@ function setupRightClickTrigger() {
 
 function editNodeCallback(beforeNode, afterNode) {
 
+    if(typeof beforeNode.id === 'undefined' || typeof afterNode.id === 'undefined') {
+        return;
+    }
+
     if(NODES.get(beforeNode.id) === null) {
         return;
     }
