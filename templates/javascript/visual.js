@@ -403,7 +403,7 @@ function getNodesBetweenness() {
         }
         nodes.push(n);
     });
-console.log(nodes);
+
     var net = {
         nodes: nodes,
         uri: "betweennessCentrality"
@@ -463,7 +463,7 @@ console.log(nodes);
                     draggable: true,
                     resizable: true,
                     closeOnEscape: true,
-                    title: "Nodes Closeness Centrality Analysis Results",
+                    title: "Nodes Betweenness Centrality Analysis Results",
                     close: function() {
                         sizeBackNodes(nodes);
                         $("#nodes-reach-analysis-results-table tr").remove();
@@ -665,7 +665,7 @@ function getNodesDegree() {
                     draggable: true,
                     resizable: true,
                     closeOnEscape: true,
-                    title: "Nodes Degree CEntrality Analysis Results",
+                    title: "Nodes Degree Centrality Analysis Results",
                     close: function() {
                         sizeBackNodes(nodes);
                         $("#nodes-reach-analysis-results-table tr").remove();
@@ -1960,6 +1960,7 @@ function discoverPaths(selectedNodes) {
 
     for(var i = 0; i < connectedNodes.length; i++) {
         if(!isVisited(connectedNodes[i])) {
+
             //first mark them as visited
             markAsVisited(connectedNodes[i]);
 
