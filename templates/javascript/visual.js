@@ -1602,6 +1602,7 @@ function importNewNetwork(nodes, edges) {
         CANVAS = NETWORK.canvas.frame.canvas;
         CTX = CANVAS.getContext('2d');
         setupDoubleClick();
+        resizeSidebar();
     }
 
     $( "#ajax-spinner-dialog" ).dialog("close");
@@ -2249,5 +2250,11 @@ function resizeSidebar() {
         html = document.documentElement;
     var height = Math.max( body.scrollHeight, body.offsetHeight,
         html.clientHeight, html.scrollHeight, html.offsetHeight );
-    $("#left-side-bar").css({'height': height + "px"});
+    $("#left-side-bar").css({'height': height+15 + "px"}); // +90 px
+    if(window.innerHeight < 990) {
+        console.log("Inner Height < 990 px");
+        if(NETWORK !== null) {
+            NETWORK.setSize("100%", "990")
+        }
+    }
 }
